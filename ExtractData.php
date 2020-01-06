@@ -38,8 +38,9 @@ if (strpos($subject, 'An adjustment for your recent Walmart.com order') !== fals
             'adjustment' => $extracted_adjustment->innerHtml,
             'reason' => $extracted_reason->innerHtml
         );
-
+        echo '<pre>';
         print_r($extracted_data);
+        echo '</pre>';
     } else {
         echo 'Response Failed Or Required Query Not Found';
     }
@@ -60,6 +61,7 @@ if (strpos($subject, 'An adjustment for your recent Walmart.com order') !== fals
         $dom->loadFromFile("extracted.html");
         $extracted_product = $dom->find('span')[6]->innerHtml;
         $extracted_price = $dom->find('span')[5]->innerHtml;
+        $extracted_price = str_replace("<b>", "",$extracted_price);
         $extracted_quantity = $dom->find('span')[7]->innerHtml;
         $extracted_total = $dom->find('span')[8]->innerHtml;
 
@@ -71,7 +73,9 @@ if (strpos($subject, 'An adjustment for your recent Walmart.com order') !== fals
             'address' => $address,
             'tracking_id' => $tracking
         );
+        echo '<pre>';
         print_r($extracted_data);
+        echo '</pre>';
     } else {
         echo "Response Failed or Query Not Found";
     }
@@ -96,7 +100,9 @@ if (strpos($subject, 'An adjustment for your recent Walmart.com order') !== fals
             'orderNo' => $extracted_orderNo,
             'orderDate' => $extracted_orderDate
         );
+        echo '<pre>';
         print_r($extracted_data);
+        echo '</pre>';
     } else {
         echo "Response Failed or Query Not Found";
     }
@@ -105,14 +111,14 @@ if (strpos($subject, 'An adjustment for your recent Walmart.com order') !== fals
     $delivery_date = $dom->find('table')->find('table')[5]->find('span')[1]->innerHtml;
     $delivery_name = $dom->find('table')->find('table')[5]->find('span')[5]->innerHtml;
     $delivery_address = $dom->find('table')->find('table')[5]->find('span')[6] . '' .
-        $dom->find('table')->find('table')[5]->find('span')[7] . ' ' .
-        $dom->find('table')->find('table')[5]->find('span')[8];
+    $dom->find('table')->find('table')[5]->find('span')[7] . ' ' .
+    $dom->find('table')->find('table')[5]->find('span')[8];
     $item = $dom->find('table')->find('table')[6]->find('span')[4]->innerHtml;
     $quantity = $dom->find('table')->find('table')[6]->find('span')[5]->innerHtml;
-    $unit_price = $dom->find('table')->find('table')[6]->find('span')[3]->innerHtml;
+    $unit_price = str_replace("<b>","",$dom->find('table')->find('table')[6]->find('span')[3]->innerHtml);
     $total = $dom->find('table')->find('table')[6]->find('span')[6]->innerHtml;
     $shipping = $dom->find('table')->find('table')[7]->find('span')[4]->innerHtml;
-    $net_total = $dom->find('table')->find('table')[7]->find('span')[6]->innerHtml;
+    $net_total = str_replace("<b>","",$dom->find('table')->find('table')[7]->find('span')[6]->innerHtml);
     $extracted_data = array(
         'delivery_date' => $delivery_date,
         'delivery_name' => $delivery_name,
@@ -123,9 +129,9 @@ if (strpos($subject, 'An adjustment for your recent Walmart.com order') !== fals
         'total' => $total,
         'shipping_cost' => $shipping,
         'net_total' => $net_total,
-
     );
+    echo '<pre>';
     print_r($extracted_data);
-} else {
-    echo "Response Failed or Query Not Found";
-}
+    echo '</pre>';
+} 
+

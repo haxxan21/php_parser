@@ -7,9 +7,15 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+            .container{
+                margin-top: 1cm
+            }
+        </style>
     </head>
     <body>
-        <form action="ExtractData.php" method="POST">
+        <div class="container">
+        <form method="POST">
         <div class="row">    
             <div class="col-sm-6">
                 <div class="form-group">    
@@ -17,11 +23,17 @@
                  </div>
             </div>
             <div class="col-sm-6">
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success" name="submit">Submit</button>
             </div>
         </div>
         </form>
-        
-        <script src="" async defer></script>
+        </div>
     </body>
 </html>
+<?php
+    if(isset($_POST['submit'])){
+        include_once 'EmailParser.php';
+        $email = new EmailParser();
+        $email->index($_POST['url']);
+    }
+?>
