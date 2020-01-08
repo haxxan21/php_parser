@@ -12,7 +12,9 @@ class EmailParser
     public function index($url)
     {
         $this->dom   = new Dom();
+        
         // Custom class Curl_Parser using Curl to fetch Document Object Model from live URl or local HTML file
+        
         $curl_parser = new Curl_parser();
         $parsed_html = $curl_parser->Fetch_URL($url);
  
@@ -70,6 +72,7 @@ class EmailParser
 
     private function OrderDelivery()
     {
+        
         $this->dom->loadFromFile('testfile.html');
 
         $contents               = $this->dom->find('table')->find('table')[7];
@@ -104,11 +107,13 @@ class EmailParser
         } else {
             echo "Response Failed or Query Not Found";
         }
+
     }
 
 
     private function RefundNotice()
     {
+        
         $contents = $this->dom->find('table')->find('table')[4];
 
         if (!empty($contents)) {
@@ -133,11 +138,13 @@ class EmailParser
         } else {
             echo "Response Failed or Query Not Found";
         }
+    
     }
 
 
     private function OrderReceived()
     {
+    
         $this->dom->loadFromFile("testfile.html");
         $delivery_date      = $this->dom->find('table')->find('table')[5]->find('span')[1]->innerHtml;
         $delivery_name      = $this->dom->find('table')->find('table')[5]->find('span')[5]->innerHtml;
@@ -162,12 +169,15 @@ class EmailParser
             'net_total'          => $net_total,
         );
         return $this->print($extracted_data);
+    
     }
 
     
     private function print($data){
+    
         echo '<pre>';
         print_r($data);
         echo '</pre>';
+    
     }
 }
